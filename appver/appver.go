@@ -111,3 +111,43 @@ func (v *Version) Warnings() []string {
 func (v *Version) VError() error {
 	return v.verror
 }
+
+// GitHash returns the git hash.
+func (v *Version) GitHash() string {
+	return v.githash
+}
+
+// GitBranch returns the git branch.
+func (v *Version) GitBranch() string {
+	return v.gitbranch
+}
+
+// GitUser returns the git user.
+func (v *Version) GitUser() string {
+	return v.gituser
+}
+
+// OS returns the operating system.
+func (v *Version) OS() string {
+	return v.os
+}
+
+// Arch returns the architecture.
+func (v *Version) Arch() string {
+	return v.arch
+}
+
+// Release returns the release.
+func (v *Version) Release() string {
+	return v.release
+}
+
+// TStamp returns the timestamp.
+func (v *Version) TStamp() string {
+	return v.timestamp.Format(time.RFC3339)
+}
+
+// Compiler returns the compiler version.
+func (v *Version) Compiler() string {
+	return v.compiler
+}
