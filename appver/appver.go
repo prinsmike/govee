@@ -78,76 +78,76 @@ func NewVersion(c *VConfig) (Version, error) {
 }
 
 // Semver returns the complete semantic version number as a string.
-func (v *Version) Semver() string {
+func (v Version) Semver() string {
 	return v.semver.String()
 }
 
 // Major returns the major version number.
-func (v *Version) Major() int {
+func (v Version) Major() int {
 	return int(v.semver.Major)
 }
 
 // Minor returns the minor version number.
-func (v *Version) Minor() int {
+func (v Version) Minor() int {
 	return int(v.semver.Minor)
 }
 
 // Patch returns the patch version number.
-func (v *Version) Patch() int {
+func (v Version) Patch() int {
 	return int(v.semver.Patch)
 }
 
 // Pre returns the pre-release version information.
-func (v *Version) Pre() string {
+func (v Version) Pre() string {
 	return fmt.Sprintf("%v", v.semver.Pre[0])
 }
 
 // Warnings returns the version warnings.
-func (v *Version) Warnings() []string {
+func (v Version) Warnings() []string {
 	return v.vwarnings
 }
 
 // VError returns the version error.
-func (v *Version) VError() error {
+func (v Version) VError() error {
 	return v.verror
 }
 
 // GitHash returns the git hash.
-func (v *Version) GitHash() string {
+func (v Version) GitHash() string {
 	return v.githash
 }
 
 // GitBranch returns the git branch.
-func (v *Version) GitBranch() string {
+func (v Version) GitBranch() string {
 	return v.gitbranch
 }
 
 // GitUser returns the git user.
-func (v *Version) GitUser() string {
+func (v Version) GitUser() string {
 	return v.gituser
 }
 
 // OS returns the operating system.
-func (v *Version) OS() string {
+func (v Version) OS() string {
 	return v.os
 }
 
 // Arch returns the architecture.
-func (v *Version) Arch() string {
+func (v Version) Arch() string {
 	return v.arch
 }
 
 // Release returns the release.
-func (v *Version) Release() string {
+func (v Version) Release() string {
 	return v.release
 }
 
 // TStamp returns the timestamp.
-func (v *Version) TStamp() string {
+func (v Version) TStamp() string {
 	return v.timestamp.Format(time.RFC3339)
 }
 
 // Compiler returns the compiler version.
-func (v *Version) Compiler() string {
+func (v Version) Compiler() string {
 	return v.compiler
 }
