@@ -77,6 +77,11 @@ func NewVersion(c *VConfig) (Version, error) {
 	return v, nil
 }
 
+// Implement the stringer interface.
+func (v Version) String() string {
+	return v.semver.String()
+}
+
 // Semver returns the complete semantic version number as a string.
 func (v Version) Semver() string {
 	return v.semver.String()
