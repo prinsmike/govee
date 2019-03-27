@@ -1,5 +1,4 @@
-// An implementation of the appv.Versioner interface.
-package appver
+package govee
 
 import (
 	"fmt"
@@ -19,27 +18,26 @@ type Version struct {
 	compiler  string
 	release   string
 	timestamp time.Time
-	vwarnings []string
-	verror    error
+	warnings  []string
+	err       error
 }
 
-// VConfig represents version configutation data.
-type VConfig struct {
-	VString   string
-	GitHash   string
-	GitBranch string
-	GitUser   string
-	OS        string
-	Arch      string
-	Compiler  string
-	Release   string
-	TStamp    string
+// VersionConfig represents the version coniguration.
+type VersionConfig struct {
+	VersionString string // semver string representation.
+	GitHash       string
+	GitBranch     string
+	GitUser       string
+	OS            string
+	Arch          string
+	Compiler      string
+	Release       string
+	TStamp        string
 }
 
-// NewVersion creates a new version object from VConfig.
-func NewVersion(c *VConfig) (Version, error) {
+// NewVersion creates a new version object from a VersionConfig.
+func NewVersion(c *VersionConfig) (Version, error) {
 	var err error
-
 	v := Version{}
 	v.githash = c.GitHash
 	v.gitbranch = c.GitBranch
@@ -49,7 +47,7 @@ func NewVersion(c *VConfig) (Version, error) {
 	v.compiler = c.Compiler
 	v.release = c.Release
 
-	v.semver, err = semver.Make(c.VString)
+	v.semver, err = semver.Make(c.VersionString)
 	if err != nil {
 		return Version{}, err
 	}
@@ -60,24 +58,24 @@ func NewVersion(c *VConfig) (Version, error) {
 	}
 
 	if len(v.semver.Pre) > 0 {
-		msg := fmt.Sprintf(
+		warning := fmt.Sprintf(
 			"This version is tagged as a pre-release \"%+v\". Please don't use in production.",
 			v.semver.Pre,
 		)
-		v.vwarnings = append(v.vwarnings, msg)
+		v.warnings = append(v.warnings, warning)
 	}
 
 	if v.release != "production" && v.release != "prod" {
-		msg := fmt.Sprintf(
+		warning := fmt.Sprintf(
 			"This version is tagged as release \"%s\". Please don't use in production.",
 			v.release,
 		)
-		v.vwarnings = append(v.vwarnings, msg)
+		v.warnings = append(v.warnings, warning)
 	}
 	return v, nil
 }
 
-// Implement the stringer interface.
+// Implement the Stringer interface.
 func (v Version) String() string {
 	return v.semver.String()
 }
@@ -92,7 +90,7 @@ func (v Version) Major() int {
 	return int(v.semver.Major)
 }
 
-// Minor returns the minor version number.
+// Minor return the minor version number.
 func (v Version) Minor() int {
 	return int(v.semver.Minor)
 }
@@ -109,12 +107,12 @@ func (v Version) Pre() string {
 
 // Warnings returns the version warnings.
 func (v Version) Warnings() []string {
-	return v.vwarnings
+	return v.warnings
 }
 
-// VError returns the version error.
-func (v Version) VError() error {
-	return v.verror
+// Err returns the version error.
+func (v Version) Err() error {
+	return v.err
 }
 
 // GitHash returns the git hash.
@@ -142,12 +140,12 @@ func (v Version) Arch() string {
 	return v.arch
 }
 
-// Release returns the release.
+// Release returns the release information.
 func (v Version) Release() string {
 	return v.release
 }
 
-// TStamp returns the timestamp.
+// TStamp returns the timestamp,
 func (v Version) TStamp() string {
 	return v.timestamp.Format(time.RFC3339)
 }
